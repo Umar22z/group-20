@@ -3,7 +3,11 @@
 # csv file path
 INPUT_FILE=~/hive/user_activity_logs_2023-09-01.csv
 
-# Read the csv  file line by line
+#ingest metadata directly
+echo "Uploading content metadata..." 
+hadoop fs -put ~/hive/content_metadata.csv /raw/metadata/
+
+# Read csv  file line by line
 tail -n +2 $INPUT_FILE | while IFS=, read -r user_id content_id action log_timestamp device region session_id
 do
     # Extract year, month, and day from the timestamp 
