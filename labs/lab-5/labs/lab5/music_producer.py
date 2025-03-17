@@ -20,7 +20,7 @@ while True:
         "song_id": random.choice(songs),
         "timestamp": time.time(),
         "region": random.choice(regions),
-        "action": "play"  # or skip, etc.
+        "action": "skip"  # or skip, etc.
     }
     producer.send(TOPIC, event)
     print(f"Sent event: {event}")
