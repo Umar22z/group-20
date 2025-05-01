@@ -1,0 +1,111 @@
+Ë
+    o˜Şg1  ã                   ó®  — d dl Zd dlmZ d dlmZ d dlm Z  d dlm	Z	 d dl
+Z
+d dl
+mZm
+Z
+mZ ed edej                   fd	„«       Zed
+ej                   dej                   fd
+„«       Zed
+ej                   dej                   fd„«       Z ed
+d¬«      dd
+ej                   dedefd„«       Zedefd„«       Zeddededefd„«       Ze
+d„ «       Zedk(  r e«        yy)é    N)Útrain_test_split)ÚRandomForestClassifier)Úaccuracy_score)ÚStandardScaler)ÚtaskÚflowÚget_run_loggerÚdataset_pathÚreturnc                 óô   — t        «       }t        d| › «       |j                  d| › «       t         j                  | «      }t        d|j
+                  › «       |j                  d|j
+                  › «       |S )NzReading data from zData shape: )r	   ÚprintÚinfoÚpdÚread_csvÚshape)r
+   ÚloggerÚdfs      úGC:\Users\Umar Farook\Documents\LUMS\Spring 2025\DE\Lab 6\ml_pipeline.pyÚ
+fetch_datar   	   sk   € ä
+Ó
+€FÜ	Ğ˜|˜nĞ
+-Ô.Ø
+‡KKĞ$ \ NĞ3Ô4Ü	
+‰\Ó	"€BÜ	ˆL˜Ÿ™˜
+Ğ
+#Ô$Ø
+‡KK,˜rŸx™x˜jĞ)Ô*Ø
+
+€Ió    r   c                 ó  — t        «       }t        d«       |j                  d«       | j                   «       j	                  «       }t        d|«       |j                  d|«       | j
+                  | j
+                  d¬«      d¬«       | S )NzValidating datazMissing values:
+T)Únumeric_only)Ú inplace) r	   r
+   r   ÚisnullÚsumÚfillnaÚmedian)r   r   Úmissing_valuess      r   Ú
+validate_datar      sl   € ä
+Ó
+€FÜ	Ğ
+ÔØ
+‡KKĞ!Ô"Ø—Y‘Y“[—_‘_Ó&€NÜ	Ğ
+˜~Ô.Ø
+‡KKĞ# ^Ô4à‡IIˆbi‰i TˆiÓ*°D€IÔ9Ø
+
+€Ir   c                 ó8  — t        «       }t        d«       |j                  d«       | j                  d d …d d…f   }| j                  d d …df   }t	        «       }|j
+                  |«      }t
+        j                  ||j                  ¬«      }|j                  |d<   |S )NzTransforming dataéÿÿÿÿ)Ú columnsÚtarget)
+r	   r
+   r   Úilocr   Ú
+fit_transformr   Ú	DataFramer"   Úvalues) r   r   Úfeaturesr#   ÚscalerÚscaled_featuresÚdf_transformeds           r   Útransform_datar,      sˆ   € ä
+Ó
+€FÜ	Ğ
+ÔØ
+‡KKĞ#Ô$àw‰w’q˜#˜2˜#v‰€HØ
+W‰W’Q˜U‰^€FÜ
+Ó
+€FØ×*Ñ*¨8Ó4€Oä—\‘\ /¸8×;KÑ;KÔL€NØ%Ÿ}™}€N8ÑØ
+Ğr   é   é   )Ú retriesÚretry_delay_secondsÚ	test_sizeÚrandom_statec                 ó$  — t        «       }t        d«       |j                  d«       | j                   dd¬«      }| d   }t	        ||||¬«      \  }} }}	t
+        |¬«      }
+|
+j
+                  ||«       t        d «       |j                  d «       |
+| |	fS )NzTraining modelr#   é   )Úaxis)r1   r2   )r2   zModel training complete) r	   r
+   r   Údropr   r   Úfit)
+r   r1   r2   r   ÚXÚyÚ X_trainÚX_testÚ y_trainÚy_testÚmodels
+              r   Ú
+train_modelr?   .   s   € ä
+Ó
+€FÜ	Ğ
+ÔØ
+‡KKĞ Ô!Ø
+ ‰ ˜qˆ Ó!€AØ
+ˆ8‰€AÜ'7¸¸1È	Ğ`lÔ'mÑ$€GˆVW˜fÜ"°Ô=€EØ	‡IIˆgwÔÜ	Ğ
+#Ô$Ø
+‡KKĞ)Ô*Ø
+&˜&Ğ
+ Ğ r   c                 óĞ   — t        «       }t        d«       |j                  d«       | j                   |«      }t	        ||«      }t        d|› «       |j                  d|› «       |S )NzEvaluating modelzModel accuracy: )r	   r
+   r   Ú predictr   )r>   r;   r=   r   Ú
+predictionsÚaccs         r   Úevaluate_modelrD   <   sc   € ä
+Ó
+€FÜ	Ğ
+ÔØ
+‡KKĞ"Ô#Ø—-‘- Ó'€KÜ
+˜ Ó
+-€CÜ	Ğ˜S˜EĞ
+"Ô#Ø
+‡KKĞ" 3 %Ğ(Ô)Ø
+€Jr   ÚaccuracyÚ	thresholdÚ
+model_pathc                 ó   — t        «       }||k\  rEt        d|› d|› d|› «       |j                  d|› d|› d|› «       t         j                  | |«       y t        d|› d|› d«       |j                  d|› d|› d«       y )Nz	Accuracy z meets threshold z. Saving model to z below threshold z. Model not saved.)r	   r
+   r   ÚjoblibÚdump)r>   rE   rF   rG   r   s        r   Ú
+save_modelrK   G   s˜   € ä
+Ó
+€FØ 9Ò Ü
+	˜(˜Ğ#4°Y°KĞ?QĞR\ĞQ]Ğ^Ô_Ø
+‰
+i ˜zĞ):¸9¸+ĞEWĞXbĞWcĞdÔeÜ
+‰
+E˜:Õ&ä
+	˜(˜Ğ#4°Y°KĞ?QĞRÔSØ
+‰
+i ˜zĞ):¸9¸+ĞEWĞXÕYr   c                  óÔ   — d} d}d}t        d«       t        | «      }t        |«      }t         |«      }t	        ||¬«      \  }} }t
+        || |«      }	t
+        ||	|«       t        d«       y ) NzAC:\Users\Umar Farook\Documents\LUMS\Spring 2025\DE\Lab 6\Iris.csvgÍÌÌÌÌÌì?çš™™™™™É?zStarting ML Pipeline)r1   zML Pipeline completed) r
+   r   r   r,   r?   rD   rK   )
+r
+   Úaccuracy_thresholdr1   r   Údf_validatedr+   r>   r;   r=   rE   s
+             r   Ú
+ml_pipelinerP   R   sp   € àW€LØĞØ€Iä	Ğ
+ Ô!Ü	LÓ	!€BÜ  Ó$€LÜ# LÓ1€NÜ'¨À)ÔLÑ€Eˆ66Ü˜e V¨VÓ4€HÜˆuhĞ 2Ô3Ü	Ğ
+!Õ"r   Ú__main__)rM   é*   )zmodel.joblib)Úpandasr   Úsklearn.model_selectionr   Úsklearn.ensembler   Úsklearn.metricsr   Úsklearn.preprocessingr   rI   Ú prefectr    r   r	   Ústrr&   r   r   r,   ÚfloatÚintr?   rD   rK   rP   Ú__name__© r   r   ú<module>r^      s:  ğÛ İ 4İ 3İ *İ 0Û 
+ß ,Ñ ,àğ ˜Sğ   R§\¡\ò  ó ğ ğ ğ	b—l‘lğ 	 r§|¡|ò 	ó ğ	ğ ğr—|‘|ğ ¨¯©ò ó ğñ ˆa AÔ&ñ
+!B—L‘Lğ 
+!¨Uğ 
+!Èò 
+!ó 'ğ
+!ğ ğ¨Uò ó ğğ ñZ ğ Z°%ğ ZÀSò Zó ğZğ ñ#ó ğ#ğ ˆzÒÙ…Mğ r   
